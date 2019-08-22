@@ -31,7 +31,7 @@ def scrape_info():
     ## JPL Mars Space Images - Featured Image ##
     # Setting up a URL for scraping
     JPL_url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
-    browser.visi(JPL_url)
+    browser.visit(JPL_url)
 
     # Preparation for splinter
     browser.click_link_by_partial_text('FULL IMAGE')
