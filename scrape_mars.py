@@ -10,6 +10,11 @@ def init_browser():
     executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
     return Browser('chrome', **executable_path, headless = False)
 
+# For Windows users
+# def init_browser()
+#     executable_path = {'executable_path': 'chromedriver.exe'}
+#     browser = Browser('chrome', **executable_path, headless = False)
+
 def scrape_info():
     browser = init_browser()
 
@@ -20,7 +25,7 @@ def scrape_info():
     NASA_html = browser.html
     NASA_soup = bs(NASA_html, 'html.parser')
 
-    # Storing he title and summary of the first article found
+    # Storing the title and summary of the first article found
     title = NASA_soup.find('div', class_ = 'content_title')
     news_title = title.a.text.strip()
 
@@ -50,13 +55,13 @@ def scrape_info():
 
     ## Mars Weather ##
     # Using the request method
-    tweet_url = 'https://mobile.twitter.com/marswxreport?lang=en'
+    tweet_url = 'https://www.twitter.com/marswxreport?lang=en'
     response = requests.get(tweet_url)
     tweet_soup = bs(response.text, 'lxml')
 
-    # Storing the text information of the very first tweet
-    tweet = tweet_soup.find('div', class_ = 'tweet-text')
-    weather = tweet.div.text.strip()
+    # Extracting the temperature information from the tweet
+    tweet = tweet_soup.find('div', class_ = 'js-tweet-text-container')
+    weather = list(tweet.p)[0]
 
 
     ## Mars Facts ##
@@ -69,6 +74,9 @@ def scrape_info():
     del df['Earth']
     df.columns = ['Description', 'Value']
     df = df.set_index('Description')
+
+    # Converting the table to HTML
+    facts_table = df.to_html()
 
 
     ## Mars Hemispheres ##
@@ -91,7 +99,11 @@ def scrape_info():
         browser.click_link_by_partial_text(title)
         images = {}
         images['title'] = title
-        images['img_url'] = browser.find_by_text('Original')['href']
+        # images['img_url'] = browser.find_by_text('Original')['href']
+        # Unfortunately, .tiff image files cannot be naturally displayed on Chrome without extensions.
+        # If you are using macOS and Safari as your default browser, .tiff will work.
+        # For now, assuming many people use Chrome, I use 'Sample' which has .jpg extension.
+        images['img_url'] = browser.find_by_text('Sample')['href']
         hemisphere_image_urls.append(images)
         browser.back()
         time.sleep(1)
@@ -101,7 +113,7 @@ def scrape_info():
         'news_p': news_p,
         'featured_image_url': featured_image_url,
         'weather': weather,
-        'facts': df,
+        'facts': facts_table,
         'hemisphere_image_urls': hemisphere_image_urls
     }
 

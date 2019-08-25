@@ -5,19 +5,96 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+    <!-- Bootstrap CSS and stylesheet-->
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css" rel="stylesheet" integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt" crossorigin="anonymous">
+    <title>Mission to Mars</title>
   </head>
   <body>
-    <div class="jumbotron">
-        <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+
+    <!-- Box for scraping data -->
+    <div class="container-fluid">
+      <div class="jumbotron text-center">
+        <h1 class="display-3">Mission to Mars</h1>
         <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <a class="btn btn-primary btn-lg" href="/scrape" role="button">Learn more</a>
+        <a class="btn btn-primary btn-lg bg-dark" href="/scrape" role="button">Scrape New Data</a>
       </div>
+    </div>
+    
+    <!-- Container for Latest Mars News -->
+    <div class="container">
+      <div
+        class="row"
+        style="
+          background-color: #ededed;
+          margin-top: 50px;
+          margin-bottom: 50px;
+          padding: 10px 40px 10px 40px;
+          border-radius: 10px;
+        ">
+        <div class="col-lg-12">
+          <h2>Latest Mars News</h2>
+          <h4>{{ summary.news_title }}</h4>
+          <p>{{ summary.news_p }}</p>
+        </div>
+      </div>
+      <div class="row">
+        
+        <!-- Box for Featured Mars Image -->
+        <div class="col-lg-8"
+          style="
+            background-color: #ededed;
+            margin-top: auto;
+            margin-bottom: auto;
+            padding: 10px 40px 10px 40px;
+            border-radius: 10px;
+          ">
+          <h2>Featured Mars Image</h2>
+          <img style="height: 100%; width: 100%;" src="{{ summary.featured_image_url }}" alt="Featured image on JPL">
+        </div>
+        <div class="col-lg-4">
+
+          <!-- Card for Current Weather on Mars -->
+          <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+            <div class="card-body">
+              <h4 class="card-title">Current Weather on Mars</h4>
+              <p class="card-text">{{ summary.weather }}</p>
+            </div>
+          </div>
+
+          <!-- Table for Mars Facts -->
+          <h3>Mars Facts</h3>
+          {{ summary.facts | safe }}
+        </div>
+      </div>
+
+      <!-- Cards for Mars Hemispheres images -->
+      <div
+        class="row"
+        style="
+          background-color: #ededed;
+          margin-top: 50px;
+          margin-bottom: 50px;
+          padding: 10px 40px 10px 40px;
+          border-radius: 10px;
+        ">
+        <div class="col-lg-12 text-center">
+          <h2>Mars Hemispheres</h2>
+          <div class="row">
+            {% for img in summary.hemisphere_image_urls %}
+            <div class="col-lg-6">
+              <div class="card mb-3">
+                <img style="height: 100%; width: 100%; display: block;" 
+                     src="{{ img.img_url }}"
+                     alt="{{ img.title }}">
+                <h6 class="card-header">{{ img.title }}</h6>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
