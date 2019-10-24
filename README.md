@@ -1,5 +1,5 @@
-# Assignment 12: Mission to Mars - Soo Bin
-For this assignment, various pieces of information about Mars are scraped and put into an application. The following libraries were used to complete this assignment:
+# Information on Mars
+Various pieces of information about Mars are scraped and put into an application. The following libraries were used to complete this assignment:
 
 * BeautifulSoup and Splinter were used to scrape data and images;
 * Pandas was used to convert a DataFrame into an HTML format;
